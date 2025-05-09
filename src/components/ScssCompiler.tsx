@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { compile } from 'sass';
+import * as sass from 'sass';
 import { toast } from '@/components/ui/use-toast';
 import CodeEditor from './CodeEditor';
 import { Button } from '@/components/ui/button';
@@ -42,8 +42,8 @@ $padding: 16px;
     setIsCompiling(true);
     
     try {
-      // Fix: using the correct API for sass.compile()
-      const result = await compile(scssCode);
+      // Using sass.compileString which works in the browser
+      const result = await sass.compileString(scssCode);
       
       setCssCode(result.css);
     } catch (error) {
@@ -83,12 +83,12 @@ $padding: 16px;
         </Button>
       </div>
       
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 h-[650px]">
-        <div className="rounded-lg overflow-hidden border border-editor-line bg-editor-bg flex flex-col">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 h-[650px] min-h-[650px]">
+        <div className="rounded-lg overflow-hidden border border-editor-line bg-editor-bg flex flex-col h-full">
           <div className="bg-editor-line text-editor-text px-4 py-2 font-medium">
             SCSS
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-h-[600px]">
             <CodeEditor
               language="scss"
               value={scssCode}
@@ -97,11 +97,11 @@ $padding: 16px;
           </div>
         </div>
         
-        <div className="rounded-lg overflow-hidden border border-editor-line bg-editor-bg flex flex-col">
+        <div className="rounded-lg overflow-hidden border border-editor-line bg-editor-bg flex flex-col h-full">
           <div className="bg-editor-line text-editor-text px-4 py-2 font-medium">
             CSS Compilado
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-h-[600px]">
             <CodeEditor
               language="css"
               value={cssCode}
