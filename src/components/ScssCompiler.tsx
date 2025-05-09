@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { compile } from 'sass';
 import { toast } from '@/components/ui/use-toast';
@@ -42,10 +41,8 @@ $padding: 16px;
     setIsCompiling(true);
     
     try {
-      const result = await compile({
-        source: scssCode,
-        style: 'expanded'
-      });
+      // Fix: using the correct API for sass.compile()
+      const result = await compile(scssCode);
       
       setCssCode(result.css);
     } catch (error) {
